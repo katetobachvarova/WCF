@@ -1,0 +1,15 @@
+﻿<Window x:Class="WCF_ClientWPFApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WCF_ClientWPFApp"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Label Content="Zip Code:" Height="40" HorizontalAlignment="Left" Margin="53,42,0,0" Name="label1" VerticalAlignment="Top" FontSize="20" Width="103" />
+        <TextBox Height="36" HorizontalAlignment="Left" Margin="156,46,0,0" Name="txtZipCode" VerticalAlignment="Top" Width="143" FontSize="20" Text="{Binding ZipCode, Mode=TwoWay}"/>
+        <Button Content="Get Info" Height="39" HorizontalAlignment="Left" Margin="156,103,0,0" VerticalAlignment="Top" Width="100" FontSize="20" Command="{Binding GetStateTextCommand}"/>
+        <Label Height="38" HorizontalAlignment="Left" Margin="156,157,0,0" Name="lblCity" VerticalAlignment="Top" Width="255" FontSize="20"  Content="{Binding City}"/>
+    </Grid>
+</Window>
