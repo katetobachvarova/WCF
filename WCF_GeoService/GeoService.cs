@@ -7,6 +7,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using WCF_Data;
 
 namespace WCF_GeoService
 {
@@ -14,14 +15,17 @@ namespace WCF_GeoService
     [ServiceBehavior(IncludeExceptionDetailInFaults = true)]
     public class GeoService : IGeoService
     {
-        private Dictionary<string, string> cityZipDict;
+        //private Dictionary<string, string> cityZipDict;
+        IZipCodeRepository _ZipCodeRepository = null;
+
         private int Counter = 0;
-        public GeoService()
+        public GeoService(IZipCodeRepository zipCodeRepository)
         {
-            cityZipDict = new Dictionary<string, string>();
-            cityZipDict.Add("1000", "Sofia");
-            cityZipDict.Add("2000", "Plovdiv");
-            cityZipDict.Add("3000", "Burgas");
+            _ZipCodeRepository = zipCodeRepository;
+            //cityZipDict = new Dictionary<string, string>();
+            //cityZipDict.Add("1000", "Sofia");
+            //cityZipDict.Add("2000", "Plovdiv");
+            //cityZipDict.Add("3000", "Burgas");
         }
 
         [PrincipalPermission(SecurityAction.Demand)] //, Role = "Administrators")]
@@ -35,9 +39,12 @@ namespace WCF_GeoService
             string threadIdentity = Thread.CurrentPrincipal.Identity.Name;
 
             //return  cityZipDict.FirstOrDefault(o => o.Key == zip).Value ?? "Not Found";
-            if (cityZipDict.FirstOrDefault(o => o.Key == zip).Value != null)
+            //if (cityZipDict.FirstOrDefault(o => o.Key == zip).Value != null)
+            if (!string.IsNullOrWhiteSpace(zip))
             {
-                return cityZipDict.FirstOrDefault(o => o.Key == zip).Value;
+                //return cityZipDict.FirstOrDefault(o => o.Key == zip).Value;
+                ZipCode zc = _ZipCodeRepository.GetByZip(zip);
+                return zc?.City ?? "Not Found";
             }
             else
             {
